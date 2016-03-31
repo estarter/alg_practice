@@ -1,8 +1,11 @@
 package interval_scheduling.unweighted;
 
 import interval_scheduling.Interval;
-import java.util.List;
 import org.junit.Test;
+
+import java.util.List;
+
+import static org.junit.Assert.assertArrayEquals;
 
 /**
  * Created by amerezhi on 3/31/16.
@@ -21,8 +24,7 @@ public class UnweightedAlgTest {
         };
 
         List<Interval> bestIntervals = UnweightedAlg.scheduleIntervals(intervals);
-        bestIntervals.forEach(System.out::println);
-
-
+        Interval[] expected = new Interval[]{intervals[0], intervals[1], intervals[3], intervals[4]};
+        assertArrayEquals(expected, bestIntervals.toArray(new Interval[]{}));
     }
 }
