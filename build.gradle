@@ -1,8 +1,10 @@
-//name 'interval_search'
-group 'algs'
-version '1.0-SNAPSHOT'
-
 apply plugin: 'java'
+
+jar {
+    baseName "alg_practice"
+}
+group 'org.theory'
+version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
