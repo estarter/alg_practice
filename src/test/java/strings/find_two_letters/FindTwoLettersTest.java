@@ -18,4 +18,11 @@ public class FindTwoLettersTest {
         assertFalse(ftl.findTwoLetters('O', 'L'));
     }
 
+    @Test
+    public void testBigString() {
+        FindTwoLetters ftl = new FindTwoLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        assertTrue(ftl.findTwoLetters('A', 'Z'));
+        assertTrue(ftl.findTwoLetters('A', 'A'));
+        assertTrue(ftl.findTwoLetters('Z', 'A'));
+    }
 }

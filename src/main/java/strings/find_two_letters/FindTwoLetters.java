@@ -3,7 +3,6 @@ package strings.find_two_letters;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
 
 /**
  * Input: string made of chars A,B,C..Z
@@ -11,30 +10,37 @@ import java.util.*;
  */
 public class FindTwoLetters {
     static final char[] INPUT =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-
-    HashMap<Character, Set<Character>> index;
+    static final int FULL_INDEX = INPUT.length * INPUT.length;
+    boolean[][] index;
 
     public FindTwoLetters(String input) {
-        index = new HashMap<>();
-        for (char key : INPUT) {
-            int firstIdx = input.indexOf(key);
-            if (firstIdx >= 0) {
-                Set<Character> endChars = new TreeSet<>();
-                for (char end : INPUT) {
-                    if (input.indexOf(end, firstIdx) > 0) {
-                        endChars.add(end);
+        boolean[] visited = new boolean[INPUT.length];
+        index = new boolean[INPUT.length][];
+        for (int i = 0; i < index.length; i++) {
+            index[i] = new boolean[INPUT.length];
+        }
+
+        int counter = 0;
+        // O(n)
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            for (int j = 0; j < index.length; j++) {
+                if (visited[j]) {
+                    if (!index[j][c - 'A']) {
+                        index[j][c - 'A'] = true;
+                        counter++;
                     }
                 }
-                index.put(key, endChars);
+            }
+            visited[c - 'A'] = true;
+            if (counter >= FULL_INDEX) {
+                break;
             }
         }
     }
 
     public boolean findTwoLetters(char x, char y) {
-        if (index.containsKey(x)) {
-            return index.get(x).contains(y);
-        }
-        return false;
+        return index[x - 'A'][y - 'A'];
     }
 
     public static void main(String[] args) throws IOException {
@@ -49,6 +55,5 @@ public class FindTwoLetters {
                 System.out.println("TIDAK");
             }
         }
-
     }
 }
