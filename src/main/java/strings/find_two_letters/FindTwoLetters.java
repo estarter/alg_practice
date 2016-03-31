@@ -10,21 +10,23 @@ import java.util.*;
  * Problem: for the pair of chars X,Y return true if there's a substring starts with X and ends with Z
  */
 public class FindTwoLetters {
+    static final char[] INPUT =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+
     HashMap<Character, Set<Character>> index;
 
     public FindTwoLetters(String input) {
         index = new HashMap<>();
-        char[] inputArray = input.toCharArray();
-        for (int i = 0; i < inputArray.length; i++) {
-            char key = inputArray[i];
-            if (index.containsKey(key)) continue;
-            Set<Character> endChars = new TreeSet<>();
-            for (int j = i + 1; j < inputArray.length; j++) {
-                if (!endChars.contains(inputArray[j])) {
-                    endChars.add(inputArray[j]);
+        for (char key : INPUT) {
+            int firstIdx = input.indexOf(key);
+            if (firstIdx >= 0) {
+                Set<Character> endChars = new TreeSet<>();
+                for (char end : INPUT) {
+                    if (input.indexOf(end, firstIdx) > 0) {
+                        endChars.add(end);
+                    }
                 }
+                index.put(key, endChars);
             }
-            index.put(key, endChars);
         }
     }
 
