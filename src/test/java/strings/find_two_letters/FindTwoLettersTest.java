@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 public class FindTwoLettersTest {
 
     @Test
-    public void testExample() {
+    public void testExample() throws NoSuchFieldException, IllegalAccessException {
         FindTwoLetters ftl = new FindTwoLetters("HALO");
         assertTrue(ftl.findTwoLetters('H', 'O'));
         assertTrue(ftl.findTwoLetters('A', 'O'));
@@ -19,7 +19,7 @@ public class FindTwoLettersTest {
     }
 
     @Test
-    public void testBigString() {
+    public void testBigString() throws NoSuchFieldException, IllegalAccessException {
         FindTwoLetters ftl = new FindTwoLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ");
         assertTrue(ftl.findTwoLetters('A', 'Z'));
         assertTrue(ftl.findTwoLetters('A', 'A'));

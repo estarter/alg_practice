@@ -3,6 +3,11 @@ package strings.find_two_letters;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Input: string made of chars A,B,C..Z
@@ -10,30 +15,43 @@ import java.io.InputStreamReader;
  */
 public class FindTwoLetters {
     static final char[] INPUT =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-    static final int FULL_INDEX = INPUT.length * INPUT.length;
     boolean[][] index;
 
-    public FindTwoLetters(String input) {
+    public FindTwoLetters(String input) throws NoSuchFieldException, IllegalAccessException {
         boolean[] visited = new boolean[INPUT.length];
         index = new boolean[INPUT.length][];
         for (int i = 0; i < index.length; i++) {
             index[i] = new boolean[INPUT.length];
         }
 
-        int counter = 0;
+        final Field field = String.class.getDeclaredField("value");
+        field.setAccessible(true);
+        final char[] inputRaw = (char[]) field.get(input);
+
+        List<Character> charsInProcess = new ArrayList<>(INPUT.length);
+        for (int i = 0; i < INPUT.length; i++) {
+            charsInProcess.add(INPUT[i]);
+        }
+        byte[] counters = new byte[INPUT.length];
+
         // O(n)
-        for (int i = 0; i < input.length(); i++) {
-            char c = input.charAt(i);
-            for (int j = 0; j < index.length; j++) {
-                if (visited[j]) {
-                    if (!index[j][c - 'A']) {
-                        index[j][c - 'A'] = true;
-                        counter++;
+        for (int i = 0; i < inputRaw.length; i++) {
+            char c = inputRaw[i];
+            Iterator it = charsInProcess.iterator();
+            while (it.hasNext()) {
+                Character key = (Character) it.next();
+                if (visited[key.charValue() - 'A']) {
+                    if (!index[key.charValue() - 'A'][c - 'A']) {
+                        index[key.charValue() - 'A'][c - 'A'] = true;
+                        counters[key.charValue() - 'A']++;
+                        if (counters[key.charValue() - 'A'] == INPUT.length) {
+                            it.remove();
+                        }
                     }
                 }
             }
             visited[c - 'A'] = true;
-            if (counter >= FULL_INDEX) {
+            if (charsInProcess.size() == 0) {
                 break;
             }
         }
@@ -43,7 +61,7 @@ public class FindTwoLetters {
         return index[x - 'A'][y - 'A'];
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, NoSuchFieldException, IllegalAccessException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         FindTwoLetters ftl = new FindTwoLetters(reader.readLine());
         int testAmount = Integer.parseInt(reader.readLine());
