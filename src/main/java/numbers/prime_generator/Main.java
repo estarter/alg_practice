@@ -11,18 +11,33 @@ import java.util.List;
  */
 public class Main {
     public static Integer[] getPrimeNumbers(int from, int to) {
+        List<Integer> primes = new ArrayList<>();
+        for (int i = 4; i < from; i++) {
+            isPrimeNumber(i, primes);
+        }
+
         List<Integer> results = new ArrayList<>();
         for (int i = from; i <= to; i++) {
-            if (isPrimeNumber(i)) {
+            if (isPrimeNumber(i, primes)) {
                 results.add(i);
             }
         }
         return results.toArray(new Integer[]{});
     }
 
+    public static boolean isPrimeNumber(int number, List<Integer> primes) {
+        if (!isPrimeNumberFast(number)) return false;
+        for (Integer prime : primes) {
+            if (number % prime == 0) {
+                return false;
+            }
+        }
+        primes.add(number);
+        return true;
+    }
 
 
-    public static boolean isPrimeNumber(int number) {
+    public static boolean isPrimeNumberFast(int number) {
         if (number <= 1) return false;
         if (number <= 3) return true;
         if (number == 5) return true;
