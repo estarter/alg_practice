@@ -4,25 +4,40 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
 
 /**
- * Created by estarter on 31/03/16.
+ * Implementation of the Sieve of Eratosthenes
+ * @see http://research.cs.wisc.edu/techreports/1990/TR909.pdf
  */
 public class Main {
-    public static Integer[] getPrimeNumbers(int from, int to) {
-        List<Integer> primes = new ArrayList<>();
-        for (int i = 4; i < from; i++) {
-            isPrimeNumber(i, primes);
+    public static List<Integer> getPrimeNumbers(int from, int to) {
+        BitSet sieve = new BitSet(to+1);
+        sieve.flip(0, to+1);
+        sieve.set(0, false);
+        sieve.set(1, false);
+
+        int limit = (int) Math.sqrt(to);
+        for (int p = 2; p <= limit;) {
+            int n = p*p;
+            while (n <= to) {
+                sieve.set(n, false);
+                n += p;
+            }
+            p += 1;
+            while (!sieve.get(p) && p <= limit) {
+                p += 1;
+            }
         }
 
         List<Integer> results = new ArrayList<>();
-        for (int i = from; i <= to; i++) {
-            if (isPrimeNumber(i, primes)) {
-                results.add(i);
+        for (int n = from; n <= to; n++) {
+            if (sieve.get(n)) {
+                results.add(n);
             }
         }
-        return results.toArray(new Integer[]{});
+        return results;
     }
 
     public static boolean isPrimeNumber(int number, List<Integer> primes) {
@@ -55,7 +70,7 @@ public class Main {
         int testAmount = Integer.parseInt(reader.readLine());
         while ((testAmount--) > 0) {
             String[] data = reader.readLine().split(" ");
-            Integer[] primes = getPrimeNumbers(new Integer(data[0]), new Integer(data[1]));
+            List<Integer> primes = getPrimeNumbers(new Integer(data[0]), new Integer(data[1]));
             for (Integer num : primes) {
                 System.out.println(num);
             }
