@@ -2,3 +2,4 @@
 prime
 *.o
 *.d
+*.dSYM
