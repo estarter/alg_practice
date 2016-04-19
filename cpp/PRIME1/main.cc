@@ -44,7 +44,7 @@ TEST(prime_numbers, simple) {
     ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers(6)));
 }
 
-std::vector<int> prime_numbers_force(int from, int to) {
+std::vector<int> prime_numbers_force(const int& from, const int& to) {
     std::vector<int> result = prime_numbers(to);
     result.erase(std::remove_if(begin(result), end(result), [from](auto it) {return it < from;}), end(result));
     return result;
@@ -58,7 +58,7 @@ TEST(prime_numbers, force) {
     ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers_force(30, 50)));
 }
 
-std::vector<int> prime_numbers(int from, int to) {
+std::vector<int> prime_numbers(const int& from, const int& to) {
     int slice = sqrt(to);
     std::vector<int> first_primes = prime_numbers(slice);
 
