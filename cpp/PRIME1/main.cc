@@ -16,7 +16,7 @@ bool is_divided_by(const int& number, const std::vector<int> & primes) {
     return false;
 }
 
-TEST(is_divided_by, test) {
+TEST(prime_numbers, is_divided_by) {
     std::vector<int> v = {2, 3};
     ASSERT_FALSE(is_divided_by(2, v));
     ASSERT_FALSE(is_divided_by(3, v));
@@ -35,11 +35,11 @@ std::vector<int> prime_numbers(const int& to) {
     }
     return result;
 }
-TEST(prime_numbers, test) {
-    std::vector<int> v {2,3};
+TEST(prime_numbers, simple) {
+    std::vector<int> v {2, 3};
     ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers(3)));
     ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers(4)));
-    v.push_back(5);
+    v = {2, 3, 5};
     ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers(5)));
     ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers(6)));
 }
@@ -49,16 +49,20 @@ std::vector<int> prime_numbers_force(int from, int to) {
     result.erase(std::remove_if(begin(result), end(result), [from](auto it) {return it < from;}), end(result));
     return result;
 }
+TEST(prime_numbers, force) {
+    std::vector<int> v{2, 3, 5, 7};
+    ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers_force(1, 10)));
+    v = {11, 13, 17, 19};
+    ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers_force(10, 20)));
+    v = {31, 37, 41, 43, 47};
+    ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers_force(30, 50)));
+}
 
 std::vector<int> prime_numbers(int from, int to) {
     int slice = sqrt(to);
     std::vector<int> first_primes = prime_numbers(slice);
-    // cout << "first primes : ";
-    // std::copy(begin(first_primes), end(first_primes), std::ostream_iterator<int>(cout, " "));
-    // cout << endl;
 
     std::vector<int> result;
-    // std::copy(begin(first_primes), )
     for (int i = from; i <= to; i++) {
         if (i > 1 && !is_divided_by(i, first_primes)) {
             result.push_back(i);
@@ -66,7 +70,7 @@ std::vector<int> prime_numbers(int from, int to) {
     }
     return result;
 }
-TEST(prime_numbers, interval_test) {
+TEST(prime_numbers, fast) {
     std::vector<int> v{2, 3, 5, 7};
     ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers(1, 10)));
     v = {11, 13, 17, 19};
@@ -91,7 +95,6 @@ int main(int argc, char **argv) {
         cin >> from >> to;
         auto result = prime_numbers(from, to);
         // auto result = prime_numbers_force(from, to);
-        // auto result = prime_numbers(to);
         std::copy(begin(result), end(result), std::ostream_iterator<int>(cout, " "));
         cout << endl;
     }
