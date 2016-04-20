@@ -48,7 +48,7 @@ CXX := clang++
 
 # 7.  Type 'make' on the command line.
 
-CPPFLAGS += -MD -MP
+CPPFLAGS += -MD -MP -O3 -g
 
 SOURCES := $(wildcard *.cc)
 -include $(SOURCES:%.cc=%.d)

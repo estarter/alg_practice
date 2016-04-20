@@ -2,32 +2,37 @@
 #include <iterator>
 #include <iostream>
 #include <vector>
+#include <list>
+#include <deque>
 #include <math.h>
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 using std::cout; using std::endl; using std::cin;
 
+// typedef std::deque<int> CONT;
+typedef std::list<int> CONT;
 
-bool is_divided_by(const int& number, const std::vector<int> & primes) {
+
+bool is_divided_by(const int& number, const CONT & primes) {
     for (int p : primes) {
-        if (number == p) return false;
+        // if (number == p) return false;
         if (number % p == 0) return true;
     }
     return false;
 }
 
 TEST(prime_numbers, is_divided_by) {
-    std::vector<int> v = {2, 3};
-    ASSERT_FALSE(is_divided_by(2, v));
-    ASSERT_FALSE(is_divided_by(3, v));
+    CONT v = {2, 3};
+    // ASSERT_FALSE(is_divided_by(2, v));
+    // ASSERT_FALSE(is_divided_by(3, v));
     ASSERT_FALSE(is_divided_by(5, v));
 
     ASSERT_TRUE(is_divided_by(4, v));
     ASSERT_TRUE(is_divided_by(6, v));
 }
 
-std::vector<int> prime_numbers(const int& to) {
-    std::vector<int> result;
+CONT prime_numbers(const int to) {
+    CONT result;
     for (int i = 2; i <= to; i++) {
         if (!is_divided_by(i, result)) {
             result.push_back(i);
@@ -36,7 +41,7 @@ std::vector<int> prime_numbers(const int& to) {
     return result;
 }
 TEST(prime_numbers, simple) {
-    std::vector<int> v {2, 3};
+    CONT v {2, 3};
     ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers(3)));
     ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers(4)));
     v = {2, 3, 5};
@@ -44,34 +49,39 @@ TEST(prime_numbers, simple) {
     ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers(6)));
 }
 
-std::vector<int> prime_numbers_force(const int& from, const int& to) {
-    std::vector<int> result = prime_numbers(to);
-    result.erase(std::remove_if(begin(result), end(result), [from](auto it) {return it < from;}), end(result));
-    return result;
-}
-TEST(prime_numbers, force) {
-    std::vector<int> v{2, 3, 5, 7};
-    ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers_force(1, 10)));
-    v = {11, 13, 17, 19};
-    ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers_force(10, 20)));
-    v = {31, 37, 41, 43, 47};
-    ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers_force(30, 50)));
-}
+// CONT prime_numbers_force(const int& from, const int& to) {
+//     CONT result = prime_numbers(to);
+//     result.erase(std::remove_if(begin(result), end(result), [from](auto it) {return it < from;}), end(result));
+//     return result;
+// }
+// TEST(prime_numbers, force) {
+//     CONT v{2, 3, 5, 7};
+//     ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers_force(1, 10)));
+//     v = {11, 13, 17, 19};
+//     ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers_force(10, 20)));
+//     v = {31, 37, 41, 43, 47};
+//     ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers_force(30, 50)));
+// }
 
-std::vector<int> prime_numbers(const int& from, const int& to) {
+CONT prime_numbers(const int from, const int to) {
     int slice = sqrt(to);
-    std::vector<int> first_primes = prime_numbers(slice);
+    CONT first_primes = prime_numbers(slice);
 
-    std::vector<int> result;
+    CONT result;
     for (int i = from; i <= to; i++) {
         if (i > 1 && !is_divided_by(i, first_primes)) {
             result.push_back(i);
         }
     }
+    // std::copy_if(rbegin(first_primes), rend(first_primes), std::front_inserter(result), [from](int num) {return num >= from;});
+    auto begin_it = begin(result);
+    std::copy(std::find_if(begin(first_primes), end(first_primes), [from](int num) {return num >= from;}),
+              end(first_primes),
+              std::inserter(result, begin_it));
     return result;
 }
 TEST(prime_numbers, fast) {
-    std::vector<int> v{2, 3, 5, 7};
+    CONT v{2, 3, 5, 7};
     ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers(1, 10)));
     v = {11, 13, 17, 19};
     ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers(10, 20)));
