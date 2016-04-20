@@ -73,20 +73,16 @@ CONT prime_numbers(const int from, const int to) {
             result.push_back(i);
         }
     }
-    // std::copy_if(rbegin(first_primes), rend(first_primes), std::front_inserter(result), [from](int num) {return num >= from;});
-    auto begin_it = begin(result);
-    std::copy(std::find_if(begin(first_primes), end(first_primes), [from](int num) {return num >= from;}),
-              end(first_primes),
-              std::inserter(result, begin_it));
+    std::copy_if(rbegin(first_primes),
+                 rend(first_primes),
+                 std::front_inserter(result),
+                 [from](int num) {return num >= from;});
     return result;
 }
 TEST(prime_numbers, fast) {
-    CONT v{2, 3, 5, 7};
-    ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers(1, 10)));
-    v = {11, 13, 17, 19};
-    ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers(10, 20)));
-    v = {31, 37, 41, 43, 47};
-    ASSERT_THAT(v, ::testing::ContainerEq(prime_numbers(30, 50)));
+    ASSERT_THAT((CONT {2, 3, 5, 7}), ::testing::ContainerEq(prime_numbers(1, 10)));
+    ASSERT_THAT((CONT {11, 13, 17, 19}), ::testing::ContainerEq(prime_numbers(10, 20)));
+    ASSERT_THAT((CONT {31, 37, 41, 43, 47}), ::testing::ContainerEq(prime_numbers(30, 50)));
 }
 
 
