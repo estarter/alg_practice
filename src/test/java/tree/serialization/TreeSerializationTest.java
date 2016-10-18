@@ -1,6 +1,5 @@
 package tree.serialization;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -10,6 +9,12 @@ import static org.junit.Assert.*;
  */
 public class TreeSerializationTest {
     TreeSerialization serialization = new TreeSerialization();
+
+    @Test
+    public void testNull() throws Exception {
+        String tt = serialization.serializeTree(null);
+        assertNull(serialization.restoreTree(tt));
+    }
 
     @Test
     public void testSingleNode() throws Exception {
@@ -32,6 +37,7 @@ public class TreeSerializationTest {
         root.left = new TreeNode(2, null, null);
         root.right = new TreeNode(3, null, null);
         String tt = serialization.serializeTree(root);
+        System.out.println(tt);
         assertEquals(serialization.restoreTree(tt), root);
     }
 
