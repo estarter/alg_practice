@@ -12,54 +12,38 @@ public class program {
     public static void main(String[] args) throws IOException {
         BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
         String[] metrics = scanner.readLine().split(" ");
-        int nodesAmount = Integer.parseInt(metrics[0]);
+        int nodeAmount = Integer.parseInt(metrics[0]);
         int linksAmount = Integer.parseInt(metrics[1]);
-        int nodeId = Integer.parseInt(metrics[2]);
+        int nodeId = Integer.parseInt(metrics[2])-1;
 
-        Map<Integer, Node> nodes = new HashMap<>(nodesAmount);
-        for (int i = 1; i <= nodesAmount; i++) {
-            nodes.put(i, new Node(i));
+        List<Integer>[] neighbours = new List[nodeAmount];
+        for (int i = 0; i < nodeAmount; i++) {
+            neighbours[i] = new ArrayList<>();
         }
 
-        while (linksAmount > 0) {
-            linksAmount--;
-            String[] link = scanner.readLine().split(" ");
-            int node1 = Integer.parseInt(link[0]);
-            int node2 = Integer.parseInt(link[1]);
-            nodes.get(node1).linkedNodes.add(node2);
-            nodes.get(node2).linkedNodes.add(node1);
+        for (; linksAmount > 0; linksAmount--) {
+            String[] edge = scanner.readLine().split(" ");
+            int node1 = Integer.parseInt(edge[0])-1;
+            int node2 = Integer.parseInt(edge[1])-1;
+            neighbours[node1].add(node2);
+            neighbours[node2].add(node1);
         }
 
-        int result = getReachableNodesAmount(nodes, nodeId);
-        System.out.println(result);
-    }
-
-    static int getReachableNodesAmount(Map<Integer, Node> nodes, int nodeId) {
-        LinkedList<Node> queue = new LinkedList<>();
-        queue.add(nodes.get(nodeId));
-        int amount = 0;
+        int result = 0;
+        boolean[] visited = new boolean[nodeAmount]; // all nodes are unvisited
+        LinkedList<Integer> queue = new LinkedList();
+        queue.add(nodeId);
+        visited[nodeId] = true;
         while (!queue.isEmpty()) {
-            Node node = queue.poll();
-            node.visited = true;
-            for (int id : node.linkedNodes) {
-                Node linkedNode = nodes.get(id);
-                if (!linkedNode.visited) {
-                    amount++;
+            Integer node = queue.poll();
+            for (Integer linkedNode : neighbours[node]) {
+                if (!visited[linkedNode]) {
                     queue.add(linkedNode);
-                    linkedNode.visited = true;
+                    visited[linkedNode] = true;
+                    result++;
                 }
             }
         }
-        return amount;
-    }
-}
-
-class Node {
-    int id;
-    boolean visited = false;
-    List<Integer> linkedNodes = new ArrayList<>();
-
-    public Node(int id) {
-        this.id = id;
+        System.out.println(result);
     }
 }
