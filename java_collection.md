@@ -33,5 +33,16 @@
 |~~Hashtable~~ | Hashtable | 1.0 | No | No | Legacy class; synchronized methods. Do not use. |
 |Properties | Hashtable | 1.0 | No | No | Extends Hashtable with String methods.|
 
-TODO: queue
+## Queue implementations
 
+| Description | Methods |
+|-------------|---------|
+| Exception when bounded queues | remove() / add() |
+| Return false or null obj on failure | offer() / poll() |
+| BlockingQueue methods that waits to succeed | put() / take() |
+
+|Class | Ordering | Null element | Queue performance | Object remove/lookup | Notes |
+|------|----------|--------------|-------------------|----------------------|-------|
+|LinkedList | FIFO | Yes | constant time | linear | |
+|PriorityQueue | Comparable | No | O(log(n)) | linear | Least element is on top |
+|ArrayDeque | double-ended queue | No | amortized constant time | linear |faster than LinkedList when used as a queue (why?) |
