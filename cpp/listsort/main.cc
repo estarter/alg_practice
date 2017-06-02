@@ -54,6 +54,20 @@ int cmp(element *a, element *b) {
     return a->i - b->i;
 }
 
+void printlist(element* head, int is_double, int is_circular) {
+    element* p = head;
+    do {
+        printf(" %d", p->i);
+        if (is_double) {
+            if (p->next && p->next->prev != p) {
+                printf(" [REVERSE LINK ERROR!]");
+            }
+        }
+        p = p->next;
+    } while (is_circular ? (p != head) : (p != NULL));
+    printf("\n");
+}
+
 /*
  * This is the actual sort function. Notice that it returns the new
  * head of the list. (It has to, because the head will not
@@ -74,14 +88,15 @@ element *listsort(element *list, int is_circular, int is_double) {
      * Silly special case: if `list' was passed in as NULL, return
      * NULL immediately.
      */
-    if (!list)
-	return NULL;
+    if (!list) return NULL;
 
     insize = 1;
 
     while (1) {
+        printf("insize: %i\n", insize);
+        printlist(list, FALSE, FALSE);
         p = list;
-	    oldhead = list;		       /* only used for circular linkage */
+        oldhead = list;            /* only used for circular linkage */
         list = NULL;
         tail = NULL;
 
@@ -94,10 +109,11 @@ element *listsort(element *list, int is_circular, int is_double) {
             psize = 0;
             for (i = 0; i < insize; i++) {
                 psize++;
-		if (is_circular)
-		    q = (q->next == oldhead ? NULL : q->next);
-		else
-		    q = q->next;
+                if (is_circular) {
+                    q = (q->next == oldhead ? NULL : q->next);
+                } else {
+                    q = q->next;
+                }
                 if (!q) break;
             }
 
@@ -109,50 +125,53 @@ element *listsort(element *list, int is_circular, int is_double) {
 
                 /* decide whether next element of merge comes from p or q */
                 if (psize == 0) {
-		    /* p is empty; e must come from q. */
-		    e = q; q = q->next; qsize--;
-		    if (is_circular && q == oldhead) q = NULL;
-		} else if (qsize == 0 || !q) {
-		    /* q is empty; e must come from p. */
-		    e = p; p = p->next; psize--;
-		    if (is_circular && p == oldhead) p = NULL;
-		} else if (cmp(p,q) <= 0) {
-		    /* First element of p is lower (or same);
-		     * e must come from p. */
-		    e = p; p = p->next; psize--;
-		    if (is_circular && p == oldhead) p = NULL;
-		} else {
-		    /* First element of q is lower; e must come from q. */
-		    e = q; q = q->next; qsize--;
-		    if (is_circular && q == oldhead) q = NULL;
-		}
+                    /* p is empty; e must come from q. */
+                    e = q; q = q->next; qsize--;
+                    if (is_circular && q == oldhead) q = NULL;
+                } else if (qsize == 0 || !q) {
+                    /* q is empty; e must come from p. */
+                    e = p; p = p->next; psize--;
+                    if (is_circular && p == oldhead) p = NULL;
+                } else if (cmp(p,q) <= 0) {
+                    /* First element of p is lower (or same);
+                     * e must come from p. */
+                    e = p; p = p->next; psize--;
+                    if (is_circular && p == oldhead) p = NULL;
+                } else {
+                    /* First element of q is lower; e must come from q. */
+                    e = q; q = q->next; qsize--;
+                    if (is_circular && q == oldhead) q = NULL;
+                }
 
                 /* add the next element to the merged list */
-		if (tail) {
-		    tail->next = e;
-		} else {
-		    list = e;
-		}
-		if (is_double) {
-		    /* Maintain reverse pointers in a doubly linked list. */
-		    e->prev = tail;
-		}
-		tail = e;
+                if (tail) {
+                    tail->next = e;
+                } else {
+                    list = e;
+                }
+                if (is_double) {
+                    /* Maintain reverse pointers in a doubly linked list. */
+                    e->prev = tail;
+                }
+                tail = e;
             }
 
             /* now p has stepped `insize' places along, and q has too */
             p = q;
         }
-	if (is_circular) {
-	    tail->next = list;
-	    if (is_double)
-		list->prev = tail;
-	} else
-	    tail->next = NULL;
+        if (is_circular) {
+            tail->next = list;
+            if (is_double) {
+                list->prev = tail;
+            }
+        } else {
+            tail->next = NULL;
+        }
 
         /* If we have done only one merge, we're finished. */
-        if (nmerges <= 1)   /* allow for nmerges==0, the empty list case */
+        if (nmerges <= 1) {  /* allow for nmerges==0, the empty list case */
             return list;
+        }
 
         /* Otherwise repeat, merging lists twice the size */
         insize *= 2;
@@ -162,10 +181,25 @@ element *listsort(element *list, int is_circular, int is_double) {
 TEST(listsort, simple) {
     int n = 13;
     int order[] = {6,2,8,4,11,1,12,7,3,9,5,0,10};
-    element k[n];
+    element k[n], *head;
     for (int i = 0; i < n; i++) {
         k[i].i = i;
     }
+    for (int i = 0; i < n; i++) {
+        int *ord = order;
+        head = &k[ord[0]];
+        for (int j = 0; j < n; j++) {
+            if (j == n-1) {
+                k[ord[j]].next = NULL;
+            } else {
+                k[ord[j]].next = &k[ord[j+1]];
+            }
+        }
+    }
+
+    printlist(head, FALSE, FALSE);
+    head = listsort(head, FALSE, FALSE);
+    printlist(head, FALSE, FALSE);
     EXPECT_EQ(1, 1);
 }
 
@@ -200,48 +234,32 @@ int main(int argc, char **argv) {
     listsort(NULL, 0, 0);
 
     for (is_circular = 0; is_circular < 2; is_circular++) {
-	for (is_double = 0; is_double < 2; is_double++) {
-	    for (i = 0; i < sizeof(order)/sizeof(*order); i++) {
-		int *ord = order[i];
-		head = &k[ord[0]];
-		for (j = 0; j < n; j++) {
-		    if (j == n-1)
-			k[ord[j]].next = (is_circular ? &k[ord[0]] : NULL);
-		    else
-			k[ord[j]].next = &k[ord[j+1]];
-		    if (is_double) {
-			if (j == 0)
-			    k[ord[j]].prev = (is_circular ? &k[ord[n-1]] : NULL);
-			else
-			    k[ord[j]].prev = &k[ord[j-1]];
-		    }
-		}
+        for (is_double = 0; is_double < 2; is_double++) {
+            for (i = 0; i < sizeof(order)/sizeof(*order); i++) {
+                int *ord = order[i];
+                head = &k[ord[0]];
+                for (j = 0; j < n; j++) {
+                    if (j == n-1)
+                    k[ord[j]].next = (is_circular ? &k[ord[0]] : NULL);
+                    else
+                    k[ord[j]].next = &k[ord[j+1]];
+                    if (is_double) {
+                    if (j == 0)
+                        k[ord[j]].prev = (is_circular ? &k[ord[n-1]] : NULL);
+                    else
+                        k[ord[j]].prev = &k[ord[j-1]];
+                    }
+                }
 
-		printf("before:");
-		p = head;
-		do {
-		    printf(" %d", p->i);
-		    if (is_double) {
-			if (p->next && p->next->prev != p)
-			    printf(" [REVERSE LINK ERROR!]");
-		    }
-		    p = p->next;
-		} while (is_circular ? (p != head) : (p != NULL));
-		printf("\n");
-		head = listsort(head, is_circular, is_double);
-		printf(" after:");
-		p = head;
-		do {
-		    printf(" %d", p->i);
-		    if (is_double) {
-			if (p->next && p->next->prev != p)
-			    printf(" [REVERSE LINK ERROR!]");
-		    }
-		    p = p->next;
-		} while (is_circular ? (p != head) : (p != NULL));
-		printf("\n");
-	    }
-	}
+                printf("before:");
+                printlist(head, is_double, is_circular);
+                
+                head = listsort(head, is_circular, is_double);
+                printf(" after:");
+                printlist(head, is_double, is_circular);
+            
+            }
+        }
     }
     return 0;
 }

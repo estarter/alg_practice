@@ -25,5 +25,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     compile group: 'junit', name: 'junit', version: '4.11'
     testCompile 'com.github.stefanbirkner:system-rules:1.16.0'
+    testCompile 'org.openjdk.jmh:jmh-core:1.18'
+    testCompile 'org.openjdk.jmh:jmh-generator-annprocess:1.18'
 }
 
