@@ -4,7 +4,9 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * @author Alexey Merezhin
@@ -80,6 +82,48 @@ public class HeapSort {
         assertArrayEquals(sort(new int[]{2,1,3}), new int[]{1,2,3});
         assertArrayEquals(sort(new int[]{2,1,3,4}), new int[]{1,2,3,4});
         assertArrayEquals(sort(new int[]{2,5,1,3,4}), new int[]{1,2,3,4,5});
+    }
+
+    /**
+     * return true if {x} is in first {count} biggest elements
+     */
+    public boolean isInFirstK(int[] heap, int count, int x) {
+        return heapCompare(heap, 0, count, x) > 0;
+    }
+    private int heapCompare(int[] heap, int i, int count, int x) {
+        if (count <= 0 || i >= heap.length) return count;
+
+        if (heap[i] > x) {
+            count = count - 1;
+            int child = (i + 1) * 2 - 1;
+            count = heapCompare(heap, child, count, x);
+            count = heapCompare(heap, child+1, count, x);
+        }
+
+        return count;
+    }
+
+    @Test
+    public void testHeapCompare() {
+        int[] heap = heapify(new int[]{7,6,1,2,3,4,5}); // [7, 6, 5, 2, 3, 1, 4]
+        assertFalse(isInFirstK(heap, 0, 7));
+        assertTrue(isInFirstK(heap, 1, 7));
+        assertTrue(isInFirstK(heap, 8, 7));
+
+        assertFalse(isInFirstK(heap, 1, 6));
+        assertTrue(isInFirstK(heap, 2, 6));
+
+        assertFalse(isInFirstK(heap, 2, 5));
+        assertTrue(isInFirstK(heap, 3, 5));
+
+        assertFalse(isInFirstK(heap, 3, 4));
+        assertTrue(isInFirstK(heap, 4, 4));
+
+        assertFalse(isInFirstK(heap, 4, 3));
+        assertTrue(isInFirstK(heap, 5, 3));
+
+        assertFalse(isInFirstK(heap, 5, 2));
+        assertTrue(isInFirstK(heap, 6, 2));
     }
 
 }
