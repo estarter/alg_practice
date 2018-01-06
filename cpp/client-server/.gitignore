@@ -1,0 +1,6 @@
+*.a
+prime
+*.o
+*.d
+*.dSYM
+
