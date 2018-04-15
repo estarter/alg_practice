@@ -1,17 +1,17 @@
 package graphs.where_am_i;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Alexey Merezhin
  */
-public class programTest {
+class programTest {
 
     @Test
-    public void locateStart() throws Exception {
+    void locateStart() {
         boolean[][] field = new boolean[][]{
                 {true, false, true, true, true, true, true, true, true, true},
                 {false, true, true, true, true, true, true, true, true, true},
@@ -30,7 +30,7 @@ public class programTest {
     }
 
     @Test
-    public void pathLengthTest() {
+    void pathLengthTest() {
         boolean[][] field = new boolean[][]{
                 {true, false, true, true, true, true, true, true, true, true},
                 {false, true, true, true, true, true, true, true, true, true},

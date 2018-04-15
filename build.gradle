@@ -1,13 +1,12 @@
 plugins {
-    id 'com.gradle.build-scan' version '1.0'
+    id 'com.gradle.build-scan' version '1.12.1'
+    id 'java'
 }
 
 buildScan {
     licenseAgreementUrl = 'https://gradle.com/terms-of-service'
     licenseAgree = 'yes'
 }
-
-apply plugin: 'java'
 
 jar {
     baseName "alg_practice"
@@ -17,15 +16,48 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
+ext.junitVintageVersion  = '5.1.1'
+ext.junitPlatformVersion = '1.1.1'
+ext.junitJupiterVersion  = '5.1.1'
+
 repositories {
     mavenCentral()
 }
 
+test {
+    useJUnitPlatform {
+        // includeEngines 'junit-jupiter', 'junit-vintage'
+        // excludeEngines 'custom-engine'
+        // includeTags 'fast' or excludeTags 'slow'
+    }
+
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
+
+//    reports {
+//        html.enabled = true
+//    }
+}
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-    compile group: 'junit', name: 'junit', version: '4.11'
+    testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
+
     testCompile 'com.github.stefanbirkner:system-rules:1.16.0'
+
     testCompile 'org.openjdk.jmh:jmh-core:1.18'
     testCompile 'org.openjdk.jmh:jmh-generator-annprocess:1.18'
+
+    compile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
+    runtime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
+
+    testRuntime("org.junit.vintage:junit-vintage-engine:${junitVintageVersion}") {
+        because 'allows JUnit 3 and JUnit 4 tests to run'
+    }
+    testRuntime("org.junit.platform:junit-platform-launcher:${junitPlatformVersion}") {
+        because 'allows tests to run from IDEs that bundle older version of launcher'
+    }
+
 }
 

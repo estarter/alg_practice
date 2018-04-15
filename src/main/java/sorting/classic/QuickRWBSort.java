@@ -1,8 +1,8 @@
 package sorting.classic;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 /**
  * sort arr of r/w/b elements so that first comes all r then all w then all b

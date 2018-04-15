@@ -1,24 +1,24 @@
 package performance;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
-import static org.junit.Assert.assertEquals;
-
 /**
  * @author Alexey Merezhin
  */
 public class LoopPerf {
-    static int[] arr = new int[100];
+    private static final int[] arr = new int[100];
     static {
         for (int i = 0; i < arr.length; i++) {
             arr[i] = i;
         }
     }
-    static int exp = 4950;
+    private static final int exp = 4950;
 
     @Benchmark
     public void classicIter() {

@@ -1,16 +1,16 @@
 package dynamic_programming;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Alexey Merezhin
  */
-public class ZigZagTest {
+class ZigZagTest {
 
     @Test
-    public void officialTestCases() {
+    void officialTestCases() {
         ZigZag zz = new ZigZag();
         assertEquals(6, zz.longestZigZag(new int[]{ 1, 7, 4, 9, 2, 5 }));
         assertEquals(7, zz.longestZigZag(new int[]{ 1, 17, 5, 10, 13, 15, 10, 5, 16, 8 }));

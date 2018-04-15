@@ -1,16 +1,17 @@
 package strings.find_two_letters;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Created by estarter on 31/03/16.
  */
-public class FindTwoLettersTest {
+class FindTwoLettersTest {
 
     @Test
-    public void testExample() throws NoSuchFieldException, IllegalAccessException {
+    void testExample() throws NoSuchFieldException, IllegalAccessException {
         FindTwoLetters ftl = new FindTwoLetters("HALO");
         assertTrue(ftl.findTwoLetters('H', 'O'));
         assertTrue(ftl.findTwoLetters('A', 'O'));
@@ -34,7 +35,7 @@ public class FindTwoLettersTest {
     }
 
     @Test
-    public void testABC() throws NoSuchFieldException, IllegalAccessException {
+    void testABC() throws NoSuchFieldException, IllegalAccessException {
         FindTwoLetters ftl = new FindTwoLetters("ABCAB");
         assertTrue(ftl.findTwoLetters('A', 'A'));
         assertTrue(ftl.findTwoLetters('B', 'A'));
@@ -48,7 +49,7 @@ public class FindTwoLettersTest {
     }
 
     @Test
-    public void testABCD() throws NoSuchFieldException, IllegalAccessException {
+    void testABCD() throws NoSuchFieldException, IllegalAccessException {
         FindTwoLetters ftl = new FindTwoLetters("ABCDAB");
         assertTrue(ftl.findTwoLetters('A', 'B'));
         assertTrue(ftl.findTwoLetters('B', 'B'));
@@ -72,7 +73,7 @@ public class FindTwoLettersTest {
     }
 
     @Test
-    public void testBigString() throws NoSuchFieldException, IllegalAccessException {
+    void testBigString() throws NoSuchFieldException, IllegalAccessException {
         FindTwoLetters ftl = new FindTwoLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ");
         assertTrue(ftl.findTwoLetters('A', 'Z'));
         assertTrue(ftl.findTwoLetters('A', 'A'));

@@ -1,16 +1,16 @@
 package sorting.sort_the_files;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Alexey Merezhin
  */
-public class SolutionTest {
+class SolutionTest {
 
     @Test
     public void sort_the_files() {

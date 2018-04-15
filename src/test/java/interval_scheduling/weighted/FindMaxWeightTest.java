@@ -1,16 +1,17 @@
 package interval_scheduling.weighted;
 
-import interval_scheduling.Interval;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+
+import interval_scheduling.Interval;
 
 /**
  * Created by amerezhi on 3/31/16.
  */
-public class FindMaxWeightTest {
+class FindMaxWeightTest {
     @Test
-    public void testSimple() throws Exception {
+    void testSimple() {
         Interval[] Intervals  = new Interval[]{
                 new Interval("0 5 10"),
                 new Interval("3 7 14"),
@@ -20,7 +21,7 @@ public class FindMaxWeightTest {
         assertEquals(18, FindMaxWeight.findMaxWeight(Intervals));
     }
     @Test
-    public void testAnotherExample() throws Exception {
+    void testAnotherExample() {
         Interval[] Intervals = new Interval[] {
                 new Interval("0 5 6"),
                 new Interval("2 3 1"),
@@ -36,7 +37,7 @@ public class FindMaxWeightTest {
         assertEquals(52, FindMaxWeight.findMaxWeight(Intervals));
     }
     @Test
-    public void testExample3() throws Exception {
+    void testExample3() {
         Interval[] Intervals = new Interval[] {
                 new Interval("0 5 6"),
                 new Interval("2 3 1"),
@@ -52,20 +53,20 @@ public class FindMaxWeightTest {
         assertEquals(52, FindMaxWeight.findMaxWeight(Intervals));
     }
     @Test
-    public void testEmtpy() throws Exception {
+    void testEmpty() {
         Interval[] Intervals  = new Interval[]{
         };
         assertEquals(0, FindMaxWeight.findMaxWeight(Intervals));
     }
     @Test
-    public void testOne() throws Exception {
+    void testOne() {
         Interval[] Intervals  = new Interval[]{
                 new Interval("0 5 10")
         };
         assertEquals(10, FindMaxWeight.findMaxWeight(Intervals));
     }
     @Test
-    public void testSameLength() throws Exception {
+    void testSameLength() {
         Interval[] Intervals  = new Interval[]{
                 new Interval("0 5 11"),
                 new Interval("0 5 10")
@@ -73,7 +74,7 @@ public class FindMaxWeightTest {
         assertEquals(11, FindMaxWeight.findMaxWeight(Intervals));
     }
     @Test
-    public void testShortIsBetter() throws Exception {
+    void testShortIsBetter() {
         Interval[] Intervals  = new Interval[]{
                 new Interval("0 5 10"),
                 new Interval("2 5 11")

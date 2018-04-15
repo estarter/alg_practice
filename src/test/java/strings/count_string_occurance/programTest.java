@@ -1,15 +1,15 @@
 package strings.count_string_occurance;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Alexey Merezhin
  */
-public class programTest {
+class programTest {
     @Test
-    public void testCount() throws Exception {
+    void testCount() {
         assertEquals(1, program.getCount("aba", "ab"));
         assertEquals(1, program.getCount("aba", "ba"));
         assertEquals(2, program.getCount("aba", "a"));
@@ -23,7 +23,7 @@ public class programTest {
         assertEquals(2, program.getCount("bbcbbcbb", "bbcbb"));
         assertEquals(2, program.getCount("bbbcbbbcbbb", "bbbcbbb"));
         assertEquals(2, program.getCount("bbbbcbbbbcbbbb", "bbbbcbbbb"));
-        assertEquals(2, program.getCount("bbbbccbbbbccbbbb", "bbbbccbbbb"));
+        assertEquals(1, program.getCount("bbbbccbbbbccbbbb", "bbbbccbbbb"));
 
 //        assertEquals(2, program.getCount("babalabalabalatheend", "alabala"));
     }

@@ -1,12 +1,12 @@
 package sorting.matrix_median;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Given a N cross M matrix in which each row is sorted, find the overall median of the matrix. Assume N*M is odd.

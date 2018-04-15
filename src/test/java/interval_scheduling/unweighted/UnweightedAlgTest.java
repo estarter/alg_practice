@@ -1,19 +1,20 @@
 package interval_scheduling.unweighted;
 
-import interval_scheduling.Interval;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import java.util.List;
 
-import static org.junit.Assert.assertArrayEquals;
+import org.junit.jupiter.api.Test;
+
+import interval_scheduling.Interval;
 
 /**
  * Created by amerezhi on 3/31/16.
  */
-public class UnweightedAlgTest {
+class UnweightedAlgTest {
 
     @Test
-    public void testExample() throws Exception {
+    void testExample() {
         Interval[] intervals = new Interval[]{
                 new Interval("Summer school", 0, 2),
                 new Interval("Semester 1", 3, 6),

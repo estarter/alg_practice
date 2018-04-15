@@ -1,16 +1,16 @@
 package max_repetition;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Alexey Merezhin
  */
-public class MaxRepetitionTest {
+class MaxRepetitionTest {
 
     @Test
-    public void getMaxRepetition() throws Exception {
+    void getMaxRepetition() {
         assertEquals(4, MaxRepetition.getMaxRepetition(new int[]{3,1,2,2,3,4,4,4}));
     }
 }

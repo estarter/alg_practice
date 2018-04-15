@@ -1,15 +1,15 @@
 package interval_scheduling.weighted;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Created by amerezhi on 3/31/16.
  */
-public class WeakBinarySearchTest {
+class WeakBinarySearchTest {
     @Test
-    public void smallArrayTests() {
+    void smallArrayTests() {
         assertEquals(-1, WeakBinarySearch.search(new int[]{}, 0));
 
         assertEquals(-1, WeakBinarySearch.search(new int[]{1}, 0));
@@ -30,7 +30,7 @@ public class WeakBinarySearchTest {
     }
 
     @Test
-    public void largeEvenArrayTests() {
+    void largeEvenArrayTests() {
         assertEquals(-1, WeakBinarySearch.search(new int[]{1, 3, 5, 7}, 0));
         assertEquals(0, WeakBinarySearch.search(new int[]{1, 3, 5, 7}, 1));
         assertEquals(0, WeakBinarySearch.search(new int[]{1, 3, 5, 7}, 2));
@@ -43,7 +43,7 @@ public class WeakBinarySearchTest {
     }
 
     @Test
-    public void largeOddArrayTests() {
+    void largeOddArrayTests() {
         assertEquals(-1, WeakBinarySearch.search(new int[]{1, 3, 5, 7, 9}, 0));
         assertEquals(0, WeakBinarySearch.search(new int[]{1, 3, 5, 7, 9}, 1));
         assertEquals(0, WeakBinarySearch.search(new int[]{1, 3, 5, 7, 9}, 2));

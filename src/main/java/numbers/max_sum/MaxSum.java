@@ -1,11 +1,11 @@
 package numbers.max_sum;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * find a subset of numbers with max sum
@@ -53,7 +53,7 @@ public class MaxSum {
         assertTrue(maxset(a).equals(new ArrayList<>(Arrays.asList(new Integer[]{1101513929, 1315634022}))));
 
         a = new ArrayList<>(Arrays.asList(new Integer[]{756898537, -1973594324, -2038664370, -184803526, 1424268980}));
-        assertTrue(maxset(a).toString(), maxset(a).equals(new ArrayList<>(Arrays.asList(new Integer[]{1424268980}))));
+        assertTrue(maxset(a).equals(new ArrayList<>(Arrays.asList(new Integer[]{1424268980}))), maxset(a).toString());
     }
 
 }
