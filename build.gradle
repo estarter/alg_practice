@@ -44,20 +44,10 @@ dependencies {
     testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
     testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
 
-    testCompile 'com.github.stefanbirkner:system-rules:1.16.0'
-
     testCompile 'org.openjdk.jmh:jmh-core:1.18'
     testCompile 'org.openjdk.jmh:jmh-generator-annprocess:1.18'
 
     compile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
     runtime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
-
-    testRuntime("org.junit.vintage:junit-vintage-engine:${junitVintageVersion}") {
-        because 'allows JUnit 3 and JUnit 4 tests to run'
-    }
-    testRuntime("org.junit.platform:junit-platform-launcher:${junitPlatformVersion}") {
-        because 'allows tests to run from IDEs that bundle older version of launcher'
-    }
-
 }
 
