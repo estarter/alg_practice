@@ -16,9 +16,9 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
-ext.junitVintageVersion  = '5.1.1'
-ext.junitPlatformVersion = '1.1.1'
-ext.junitJupiterVersion  = '5.1.1'
+ext.junitVintageVersion  = '5.2.0'
+ext.junitPlatformVersion = '1.2.0'
+ext.junitJupiterVersion  = '5.2.0'
 
 repositories {
     mavenCentral()
