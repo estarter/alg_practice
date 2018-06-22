@@ -5,3 +5,4 @@ out/
 .idea
 .gradle
 *.iml
+result.txt

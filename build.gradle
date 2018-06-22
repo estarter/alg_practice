@@ -1,6 +1,7 @@
 plugins {
-    id 'com.gradle.build-scan' version '1.12.1'
+    id 'com.gradle.build-scan' version '1.14'
     id 'java'
+    id "me.champeau.gradle.jmh" version "0.4.6"
 }
 
 buildScan {
@@ -40,14 +41,22 @@ test {
 //    }
 }
 
+jmh {
+    iterations 3
+    timeOnIteration "1 s"
+    //    timeout "1s"
+    warmupBatchSize 1
+    warmupIterations 1
+    warmup '1s'
+    humanOutputFile new File("result.txt")
+}
 dependencies {
-    testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
-
-    testCompile 'org.openjdk.jmh:jmh-core:1.18'
-    testCompile 'org.openjdk.jmh:jmh-generator-annprocess:1.18'
+    jmh 'commons-lang:commons-lang:2.4'
 
     compile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
     runtime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
+
+    compile("org.assertj:assertj-core:3.10.0")
+    runtime("org.assertj:assertj-core:3.10.0")
 }
 
