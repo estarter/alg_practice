@@ -6,3 +6,4 @@ out/
 .gradle
 *.iml
 result.txt
+.claude/
