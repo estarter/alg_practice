@@ -58,7 +58,7 @@ public class Main {
         int testAmount = Integer.parseInt(reader.readLine());
         while ((testAmount--) > 0) {
             String[] data = reader.readLine().split(" ");
-            List<Integer> primes = getPrimeNumbers(new Integer(data[0]), new Integer(data[1]));
+            List<Integer> primes = getPrimeNumbers(Integer.parseInt(data[0]), Integer.parseInt(data[1]));
             primes.forEach(System.out::println);
             System.out.println();
         }
