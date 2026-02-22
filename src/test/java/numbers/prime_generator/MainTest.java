@@ -50,6 +50,7 @@ class MainTest {
                 "1 10\n" +
                 "3 5\n";
         InputStream stdin = System.in;
+        PrintStream stdout = System.out;
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         try {
             System.setOut(new PrintStream(outContent));
@@ -65,7 +66,7 @@ class MainTest {
                     "\n", outContent.toString());
         } finally {
             System.setIn(stdin);
-            System.setOut(null);
+            System.setOut(stdout);
         }
 
 

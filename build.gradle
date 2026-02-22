@@ -1,56 +1,40 @@
 plugins {
     id 'java'
-    id "me.champeau.gradle.jmh" version "0.4.6"
+    id 'me.champeau.jmh' version '0.7.2'
 }
 
 jar {
-    baseName "alg_practice"
+    archiveBaseName = 'alg_practice'
 }
-group 'org.theory'
-version '1.0-SNAPSHOT'
+group = 'org.theory'
+version = '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
-
-ext.junitVintageVersion  = '5.2.0'
-ext.junitPlatformVersion = '1.2.0'
-ext.junitJupiterVersion  = '5.2.0'
 
 repositories {
     mavenCentral()
 }
 
 test {
-    useJUnitPlatform {
-        // includeEngines 'junit-jupiter', 'junit-vintage'
-        // excludeEngines 'custom-engine'
-        // includeTags 'fast' or excludeTags 'slow'
-    }
-
+    useJUnitPlatform()
     testLogging {
         events 'passed', 'skipped', 'failed'
     }
-
-//    reports {
-//        html.enabled = true
-//    }
 }
 
 jmh {
-    iterations 3
-    timeOnIteration "1 s"
-    //    timeout "1s"
-    warmupBatchSize 1
-    warmupIterations 1
-    warmup '1s'
-    humanOutputFile new File("result.txt")
+    iterations = 3
+    timeOnIteration = '1s'
+    warmupBatchSize = 1
+    warmupIterations = 1
+    warmup = '1s'
+    humanOutputFile = project.file('result.txt')
 }
+
 dependencies {
-    jmh 'commons-lang:commons-lang:2.4'
+    jmh 'commons-lang:commons-lang:2.6'
 
-    compile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
-    runtime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
-
-    compile("org.assertj:assertj-core:3.10.0")
-    runtime("org.assertj:assertj-core:3.10.0")
+    implementation     'org.junit.jupiter:junit-jupiter-api:5.11.4'    // also used by embedded tests in src/main/java
+    testRuntimeOnly    'org.junit.jupiter:junit-jupiter-engine:5.11.4'
+    implementation     'org.assertj:assertj-core:3.27.2'               // also used by embedded tests in src/main/java
 }
-
